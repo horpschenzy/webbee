@@ -36,6 +36,37 @@ class CreateCinemaSchema extends Migration
      */
     public function up()
     {
+        Schema::create('movies', function($table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+        });
+        
+        Schema::create('show_rooms', function($table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+        });
+
+        Schema::create('movie_details', function($table) {
+            $table->id();
+            $table->unsignedBigInteger('movie_id');
+            $table->unsignedBigInteger('show_room_id');
+            $table->double('amount', 15, 2);
+            $table->dateTime('seen_at');
+            $table->string('total_guests');
+            $table->longText('seat_arranagements'); //stored as a json.
+            $table->timestamps();
+        });
+        Schema::create('movie_bookings', function($table) {
+            $table->id();
+            $table->unsignedBigInteger('movie_detail_id');
+            $table->string('name');
+            $table->string('email');
+            $table->double('amount', 15, 2);
+            $table->enum('payment_type', ['vip', 'couple', 'super'])->default('vip');
+            $table->timestamps();
+        });
         throw new \Exception('implement in coding task 4, you can ignore this exception if you are just running the initial migrations.');
     }
 
